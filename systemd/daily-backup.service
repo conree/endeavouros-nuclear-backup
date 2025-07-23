@@ -1,0 +1,10 @@
+[Unit]
+Description=Daily Incremental Backup
+After=network.target
+Wants=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/nuclear-backup/master-backup.sh incremental
+User=root
+TimeoutSec=3600

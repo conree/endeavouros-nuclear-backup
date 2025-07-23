@@ -1,0 +1,10 @@
+[Unit]
+Description=Weekly Full System Backup
+After=network.target
+Wants=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/nuclear-backup/master-backup.sh full
+User=root
+TimeoutSec=0
