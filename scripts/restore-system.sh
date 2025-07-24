@@ -54,7 +54,7 @@ if [ -f "$CHECKSUM_FILE" ]; then
     fi
 fi
 
-TARGET_DISK="/dev/nvme2n1"
+TARGET_DISK="/dev/nvmeXn1"
 echo ""
 echo "Target disk: $TARGET_DISK"
 echo "WARNING: This will COMPLETELY OVERWRITE $TARGET_DISK"

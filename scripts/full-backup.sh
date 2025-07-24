@@ -6,7 +6,10 @@ set -e
 # Configuration
 BACKUP_DRIVE_UUID="YOUR_BACKUP_DRIVE_UUID_HERE"
 BACKUP_MOUNT_POINT="/mnt/backup_drive"
+Updated upstream
 SOURCE_DISK="/dev/YOUR_NVME-sdX_DEVICE"
+SOURCE_DISK="/dev/nvmeXn1"
+Stashed changes
 BACKUP_DIR="$BACKUP_MOUNT_POINT/disk_images"
 DATE=$(date +%Y%m%d_%H%M%S)
 BACKUP_NAME="endeavouros_full_${DATE}"
