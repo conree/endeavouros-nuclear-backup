@@ -4,9 +4,9 @@
 set -e
 
 # Configuration
-BACKUP_DRIVE_UUID="e230bf3c-78c6-4373-b1d8-025c1dc2594e"
+BACKUP_DRIVE_UUID="YOUR_BACKUP_DRIVE_UUID_HERE"
 BACKUP_MOUNT_POINT="/mnt/backup_drive"
-SOURCE_DISK="/dev/nvme1n1"
+SOURCE_DISK="/dev/YOUR_MAIN_DISK_HERE"
 BACKUP_DIR="$BACKUP_MOUNT_POINT/disk_images"
 DATE=$(date +%Y%m%d_%H%M%S)
 BACKUP_NAME="endeavouros_full_${DATE}"

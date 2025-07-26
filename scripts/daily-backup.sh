@@ -9,7 +9,7 @@ BACKUP_MOUNT_POINT="/mnt/backup_drive"
 REPO="$BACKUP_MOUNT_POINT/borg-repo"
 BACKUP_NAME="${HOSTNAME}-$(date +%Y-%m-%d_%H%M%S)"
 LOG_FILE="$BACKUP_MOUNT_POINT/logs/daily_backup_$(date +%Y%m%d).log"
-export BORG_PASSPHRASE="CHANGE_THIS_PASSPHRASE"
+export BORG_PASSPHRASE="YOUR_PASSPHRASE_HERE"
 
 # Disable sleep during backup
 echo "Disabling system sleep for backup..." | tee "$LOG_FILE"
