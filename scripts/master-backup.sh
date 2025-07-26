@@ -13,17 +13,17 @@ echo "=== Master Backup Started: $BACKUP_TYPE at $(date) ===" | tee "$LOG_FILE"
 case "$BACKUP_TYPE" in
     "full")
         echo "Running full system backup..." | tee -a "$LOG_FILE"
-        /usr/local/bin/nuclear-backup/save-config.sh 2>&1 | tee -a "$LOG_FILE"
-        /usr/local/bin/nuclear-backup/full-backup.sh 2>&1 | tee -a "$LOG_FILE"
+        /usr/local/bin/configured/nuclear-backup/save-config.sh 2>&1 | tee -a "$LOG_FILE"
+        /usr/local/bin/configured/nuclear-backup/full-backup.sh 2>&1 | tee -a "$LOG_FILE"
         ;;
     "incremental")
         echo "Running incremental backup..." | tee -a "$LOG_FILE"
-        /usr/local/bin/nuclear-backup/save-config.sh 2>&1 | tee -a "$LOG_FILE"
-        /usr/local/bin/nuclear-backup/daily-backup.sh 2>&1 | tee -a "$LOG_FILE"
+        /usr/local/bin/configured/nuclear-backup/save-config.sh 2>&1 | tee -a "$LOG_FILE"
+        /usr/local/bin/configured/nuclear-backup/daily-backup.sh 2>&1 | tee -a "$LOG_FILE"
         ;;
     "config")
         echo "Running configuration backup only..." | tee -a "$LOG_FILE"
-        /usr/local/bin/nuclear-backup/save-config.sh 2>&1 | tee -a "$LOG_FILE"
+        /usr/local/bin/configured/nuclear-backup/save-config.sh 2>&1 | tee -a "$LOG_FILE"
         ;;
     *)
         echo "Usage: $0 [full|incremental|config]" | tee -a "$LOG_FILE"
