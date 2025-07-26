@@ -4,12 +4,9 @@
 set -e
 
 # Configuration
-BACKUP_DRIVE_UUID="YOUR_BACKUP_DRIVE_UUID_HERE"
+BACKUP_DRIVE_UUID="e230bf3c-78c6-4373-b1d8-025c1dc2594e"
 BACKUP_MOUNT_POINT="/mnt/backup_drive"
-Updated upstream
-SOURCE_DISK="/dev/YOUR_NVME-sdX_DEVICE"
-SOURCE_DISK="/dev/nvmeXn1"
-Stashed changes
+SOURCE_DISK="/dev/nvme1n1"
 BACKUP_DIR="$BACKUP_MOUNT_POINT/disk_images"
 DATE=$(date +%Y%m%d_%H%M%S)
 BACKUP_NAME="endeavouros_full_${DATE}"
@@ -48,7 +45,14 @@ echo "Starting full disk backup at $(date)" | tee "$LOG_FILE"
 echo "Source: $SOURCE_DISK" | tee -a "$LOG_FILE"
 echo "Destination: $BACKUP_DIR/$BACKUP_NAME.img.gz" | tee -a "$LOG_FILE"
 
-# Check available space
+# PROACTIVE SPACE CHECK AND CLEANUP
+echo "Checking available space before backup..." | tee -a "$LOG_FILE"
+if ! /usr/local/bin/nuclear-backup/backup-space-manager.sh check; then
+    echo "ERROR: Cannot proceed with backup due to space constraints" | tee -a "$LOG_FILE"
+    exit 1
+fi
+
+# Check available space (keeping this for logging purposes)
 DISK_SIZE=$(blockdev --getsize64 $SOURCE_DISK)
 DISK_SIZE_GB=$((DISK_SIZE / 1024 / 1024 / 1024))
 AVAIL_SPACE=$(df "$BACKUP_MOUNT_POINT" | awk 'NR==2 {print $4}')
@@ -57,9 +61,8 @@ AVAIL_SPACE_GB=$((AVAIL_SPACE / 1024 / 1024))
 echo "Disk size: ${DISK_SIZE_GB}GB" | tee -a "$LOG_FILE"
 echo "Available space: ${AVAIL_SPACE_GB}GB" | tee -a "$LOG_FILE"
 
-if [ $AVAIL_SPACE_GB -lt $((DISK_SIZE_GB / 2)) ]; then
-    echo "WARNING: Low space available!" | tee -a "$LOG_FILE"
-fi
+# Note: Space management script already checked space, so we can proceed
+echo "Space check passed - proceeding with backup..." | tee -a "$LOG_FILE"
 
 # Create the backup with progress
 echo "Creating compressed disk image..." | tee -a "$LOG_FILE"
@@ -79,10 +82,9 @@ if [ -f "$BACKUP_DIR/$BACKUP_NAME.img.gz" ]; then
     cd "$BACKUP_DIR"
     sha256sum "$BACKUP_NAME.img.gz" > "$BACKUP_NAME.sha256"
     
-    # Clean up old backups (keep last 3)
-    echo "Cleaning up old backups..." | tee -a "$LOG_FILE"
-    ls -t endeavouros_full_*.img.gz 2>/dev/null | tail -n +4 | xargs -r rm -v | tee -a "$LOG_FILE"
-    ls -t endeavouros_full_*.sha256 2>/dev/null | tail -n +4 | xargs -r rm -v | tee -a "$LOG_FILE"
+    # Final cleanup using space management script (safer than manual cleanup)
+    echo "Running final cleanup to maintain retention policy..." | tee -a "$LOG_FILE"
+    /usr/local/bin/nuclear-backup/backup-space-manager.sh cleanup 2>&1 | tee -a "$LOG_FILE"
     
 else
     echo "ERROR: Backup failed!" | tee -a "$LOG_FILE"
