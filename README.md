@@ -89,13 +89,13 @@ The system includes **automated space management** to prevent backup failures du
 ### **Space Management Commands**
 ```bash
 # Check available space and requirements
-./backup-space-manager.sh check
+/usr/local/bin/configured/nuclear-backup/backup-space-manager.sh check
 
 # Force cleanup of old backups
-./backup-space-manager.sh cleanup
+/usr/local/bin/configured/nuclear-backup/backup-space-manager.sh cleanup
 
 # Show current backup inventory
-./backup-space-manager.sh inventory
+/usr/local/bin/configured/nuclear-backup/backup-space-manager.sh inventory
 ```
 
 **This ensures your backups never fail due to full drives >> README_temp.md* 🛡️
