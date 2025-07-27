@@ -47,7 +47,7 @@ echo "Destination: $BACKUP_DIR/$BACKUP_NAME.img.gz" | tee -a "$LOG_FILE"
 
 # PROACTIVE SPACE CHECK AND CLEANUP
 echo "Checking available space before backup..." | tee -a "$LOG_FILE"
-if ! /usr/local/bin/nuclear-backup/backup-space-manager.sh check; then
+if ! /usr/local/bin/anonymized/endeavouros-nuclear-backup/scripts/backup-space-manager.sh check; then
     echo "ERROR: Cannot proceed with backup due to space constraints" | tee -a "$LOG_FILE"
     exit 1
 fi
@@ -84,7 +84,7 @@ if [ -f "$BACKUP_DIR/$BACKUP_NAME.img.gz" ]; then
     
     # Final cleanup using space management script (safer than manual cleanup)
     echo "Running final cleanup to maintain retention policy..." | tee -a "$LOG_FILE"
-    /usr/local/bin/nuclear-backup/backup-space-manager.sh cleanup 2>&1 | tee -a "$LOG_FILE"
+    /usr/local/bin/anonymized/endeavouros-nuclear-backup/scripts/backup-space-manager.sh cleanup 2>&1 | tee -a "$LOG_FILE"
     
 else
     echo "ERROR: Backup failed!" | tee -a "$LOG_FILE"

@@ -19,7 +19,7 @@ BACKUP_DIR="/mnt/nas_backup"
 # Mount backup drive if needed
 if ! mountpoint -q "$BACKUP_DIR"; then
     echo "Backup drive not mounted. Attempting to mount..."
-    mount /dev/sda1 "$BACKUP_DIR" || {
+    mount /dev/sdX1 "$BACKUP_DIR" || {
         echo "Failed to mount backup drive!"
         echo "Please mount your backup drive to $BACKUP_DIR"
         exit 1

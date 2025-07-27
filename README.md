@@ -89,16 +89,16 @@ The system includes **automated space management** to prevent backup failures du
 ### **Space Management Commands**
 ```bash
 # Check available space and requirements
-/usr/local/bin/configured/nuclear-backup/backup-space-manager.sh check
+/usr/local/bin/anonymized/nuclear-backup/backup-space-manager.sh check
 
 # Force cleanup of old backups
-/usr/local/bin/configured/nuclear-backup/backup-space-manager.sh cleanup
+/usr/local/bin/anonymized/nuclear-backup/backup-space-manager.sh cleanup
 
 # Show current backup inventory
-/usr/local/bin/configured/nuclear-backup/backup-space-manager.sh inventory
+/usr/local/bin/anonymized/nuclear-backup/backup-space-manager.sh inventory
 ```
 
-**This ensures your backups never fail due to full drives >> README_temp.md* 🛡️
+**This ensures your backups never fail due to full drives 🛡️
 
 ## 🚨 Emergency Procedures
 ### Rapid Recovery Protocol
@@ -120,4 +120,4 @@ The system includes **automated space management** to prevent backup failures du
 - **Documentation**: Located in ~/docs/backup-procedures/
 - **Recovery Tools**: Available in ~/tools/recovery/
 
-Last Updated: $(date '+%Y-%m-%d %H:%M:%S')
+Last Updated: 2025-07-27

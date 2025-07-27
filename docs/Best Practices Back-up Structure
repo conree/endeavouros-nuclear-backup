@@ -2,7 +2,7 @@
 
 ## **🏗️ Two-Location Architecture (Best Practice):**
 
-### **🏠 Development Environment:** `/home/si/endeavouros-nuclear-backup/`
+### **🏠 Development Environment:** `/home/YOUR_USERNAME/endeavouros-nuclear-backup/`
 **Purpose:** Where you work and develop
 - ✅ **Full project** with documentation, git history, tests
 - ✅ **User-owned** - easy to edit without sudo

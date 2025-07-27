@@ -84,15 +84,15 @@ chmod +x scripts/tests/*.sh
 sudo mkdir -p /usr/local/bin/nuclear-backup
 
 # Copy all scripts
-sudo cp scripts/*.sh /usr/local/bin/nuclear-backup/
-sudo cp scripts/tests/*.sh /usr/local/bin/nuclear-backup/
+sudo cp scripts/*.sh /usr/local/bin/anonymized/endeavouros-nuclear-backup/
+sudo cp scripts/tests/*.sh /usr/local/bin/anonymized/endeavouros-nuclear-backup/
 
 # Set proper permissions
-sudo chmod +x /usr/local/bin/nuclear-backup/*.sh
-sudo chown root:root /usr/local/bin/nuclear-backup/*.sh
+sudo chmod +x /usr/local/bin/anonymized/endeavouros-nuclear-backup/*.sh
+sudo chown root:root /usr/local/bin/anonymized/endeavouros-nuclear-backup/*.sh
 
 # Verify installation
-ls -la /usr/local/bin/nuclear-backup/
+ls -la /usr/local/bin/anonymized/endeavouros-nuclear-backup/
 ```
 
 ### Step 5: Configure Drive UUID
@@ -103,10 +103,10 @@ BACKUP_UUID=$(sudo blkid -s UUID -o value /dev/sdX1)
 echo "Your backup UUID: $BACKUP_UUID"
 
 # Update all scripts with your UUID
-sudo sed -i "s/YOUR_BACKUP_DRIVE_UUID_HERE/$BACKUP_UUID/g" /usr/local/bin/nuclear-backup/*.sh
+sudo sed -i "s/YOUR_BACKUP_DRIVE_UUID_HERE/$BACKUP_UUID/g" /usr/local/bin/anonymized/endeavouros-nuclear-backup/*.sh
 
 # Verify the change worked
-grep "BACKUP_DRIVE_UUID" /usr/local/bin/nuclear-backup/daily-backup.sh
+grep "BACKUP_DRIVE_UUID" /usr/local/bin/anonymized/endeavouros-nuclear-backup/daily-backup.sh
 ```
 
 ### Step 6: Set Up Borg Encryption
@@ -126,10 +126,10 @@ echo "$BORG_PASSPHRASE" | sudo tee /etc/nuclear-backup/borg-passphrase
 sudo chmod 600 /etc/nuclear-backup/borg-passphrase
 
 # Update the daily backup script with your passphrase
-sudo sed -i "s/CHANGE_THIS_PASSPHRASE/$BORG_PASSPHRASE/g" /usr/local/bin/nuclear-backup/daily-backup.sh
+sudo sed -i "s/CHANGE_THIS_PASSPHRASE/$BORG_PASSPHRASE/g" /usr/local/bin/anonymized/endeavouros-nuclear-backup/daily-backup.sh
 
 # Verify the change
-sudo grep "BORG_PASSPHRASE=" /usr/local/bin/nuclear-backup/daily-backup.sh
+sudo grep "BORG_PASSPHRASE=" /usr/local/bin/anonymized/endeavouros-nuclear-backup/daily-backup.sh
 ```
 
 ### Step 7: Set Up Mount Point
@@ -168,7 +168,7 @@ sudo systemctl enable weekly-full-backup.timer
 #### Test 1: Configuration Backup
 ```bash
 # Test the configuration backup (safest test)
-sudo /usr/local/bin/nuclear-backup/save-config.sh
+sudo /usr/local/bin/anonymized/endeavouros-nuclear-backup/save-config.sh
 
 # Check results
 ls -la /mnt/backup_drive/config/
@@ -177,7 +177,7 @@ ls -la /mnt/backup_drive/config/
 #### Test 2: Borg Initialization
 ```bash
 # Test the daily backup (this initializes Borg repository)
-sudo /usr/local/bin/nuclear-backup/daily-backup.sh
+sudo /usr/local/bin/anonymized/endeavouros-nuclear-backup/daily-backup.sh
 
 # This will take a few minutes for the first run
 # Check results
@@ -212,7 +212,7 @@ systemctl status weekly-full-backup.timer
 
 ```bash
 # Run the complete test suite to verify everything works
-sudo /usr/local/bin/nuclear-backup/test-backup-system.sh
+sudo /usr/local/bin/anonymized/endeavouros-nuclear-backup/test-backup-system.sh
 
 # Should show all tests passing:
 # [PASS] ✓ Backup drive accessible
@@ -246,7 +246,7 @@ rm -rf /tmp/backup_test
 echo "=== NUCLEAR BACKUP SYSTEM STATUS ==="
 
 echo "1. Scripts installed:"
-ls -la /usr/local/bin/nuclear-backup/
+ls -la /usr/local/bin/anonymized/endeavouros-nuclear-backup/
 
 echo "2. Mount point active:"
 df -h | grep backup_drive
@@ -262,26 +262,6 @@ ls -la /mnt/backup_drive/config/
 
 echo "=== INSTALLATION COMPLETE ==="
 ```
-
-## 🛡️ Nuclear Protection Layers
-
-### Layer 1: Configuration Snapshots
-- **Essential app configs**: Fish, Wezterm, Yazi, etc.
-- **Package lists & AUR packages**
-- **System settings & network configs**
-- **Size**: ~13MB | **Speed**: 30 seconds
-
-### Layer 2: Incremental File Backups (Borg)
-- **Encrypted, deduplicated daily backups**
-- **File-level recovery from any date**
-- **Size**: ~21GB first run, changes only after
-- **Retention**: 7 daily, 4 weekly, 6 monthly
-
-### Layer 3: Complete Disk Images
-- **Bit-for-bit bootable system clones**
-- **Nuclear disaster recovery option**
-- **Size**: ~210GB compressed | **Complete restoration**
-- **Frequency**: Weekly automated creation
 
 ## 📅 Backup Schedule
 
@@ -306,7 +286,7 @@ sudo systemctl daemon-reload
 ### Modify Backup Exclusions
 ```bash
 # Edit daily backup script
-sudo nano /usr/local/bin/nuclear-backup/daily-backup.sh
+sudo nano /usr/local/bin/anonymized/endeavouros-nuclear-backup/daily-backup.sh
 
 # Look for --exclude lines and modify as needed
 ```
@@ -315,9 +295,25 @@ sudo nano /usr/local/bin/nuclear-backup/daily-backup.sh
 ```bash
 # Edit the retention settings in daily-backup.sh
 # Look for --keep-daily, --keep-weekly, --keep-monthly
-sudo nano /usr/local/bin/nuclear-backup/daily-backup.sh
+sudo nano /usr/local/bin/anonymized/endeavouros-nuclear-backup/daily-backup.sh
 ```
 
+## 🧠 Intelligent Space Management
+The system includes **automated space management** to prevent backup failures due to insufficient storage:
+
+### **Space Management Commands**
+```bash
+# Check available space and requirements
+/usr/local/bin/anonymized/endeavouros-nuclear-backup/scripts/backup-space-manager.sh check
+
+# Force cleanup of old backups
+/usr/local/bin/anonymized/endeavouros-nuclear-backup/scripts/backup-space-manager.sh cleanup
+
+# Show current backup inventory
+/usr/local/bin/anonymized/endeavouros-nuclear-backup/scripts/backup-space-manager.sh inventory
+```
+
+**This ensures your backups never fail due to full drives 🛡️
 ## 🚨 Important Security Notes
 
 ### Passphrase Management
@@ -373,7 +369,7 @@ sudo systemctl restart daily-backup.timer
 sudo cat /etc/nuclear-backup/borg-passphrase
 
 # Check script has correct passphrase
-sudo grep "BORG_PASSPHRASE=" /usr/local/bin/nuclear-backup/daily-backup.sh
+sudo grep "BORG_PASSPHRASE=" /usr/local/bin/anonymized/endeavouros-nuclear-backup/daily-backup.sh
 
 # They should match exactly
 ```
@@ -402,7 +398,7 @@ sudo grep "BORG_PASSPHRASE=" /usr/local/bin/nuclear-backup/daily-backup.sh
 3. **Schedule Regular Tests** - Run monthly verification
 4. **Monitor Logs** - Check backup status regularly
 
-## 📊 Storage Requirements
+## 📊 Expected Storage Usage
 
 | Backup Type | Initial Size | Growth Rate | Purpose |
 |-------------|--------------|-------------|---------|
