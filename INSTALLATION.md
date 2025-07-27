@@ -263,6 +263,26 @@ ls -la /mnt/backup_drive/config/
 echo "=== INSTALLATION COMPLETE ==="
 ```
 
+## 🛡️ Nuclear Protection Layers
+
+### Layer 1: Configuration Snapshots
+- **Essential app configs**: Fish, Wezterm, Yazi, etc.
+- **Package lists & AUR packages**
+- **System settings & network configs**
+- **Size**: ~13MB | **Speed**: 30 seconds
+
+### Layer 2: Incremental File Backups (Borg)
+- **Encrypted, deduplicated daily backups**
+- **File-level recovery from any date**
+- **Size**: ~21GB first run, changes only after
+- **Retention**: 7 daily, 4 weekly, 6 monthly
+
+### Layer 3: Complete Disk Images
+- **Bit-for-bit bootable system clones**
+- **Nuclear disaster recovery option**
+- **Size**: ~210GB compressed | **Complete restoration**
+- **Frequency**: Weekly automated creation
+
 ## 📅 Backup Schedule
 
 After installation, your system will automatically:
@@ -382,7 +402,7 @@ sudo grep "BORG_PASSPHRASE=" /usr/local/bin/nuclear-backup/daily-backup.sh
 3. **Schedule Regular Tests** - Run monthly verification
 4. **Monitor Logs** - Check backup status regularly
 
-## 📊 Expected Storage Usage
+## 📊 Storage Requirements
 
 | Backup Type | Initial Size | Growth Rate | Purpose |
 |-------------|--------------|-------------|---------|
