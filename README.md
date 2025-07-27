@@ -103,3 +103,20 @@ journalctl -u nuclear-backup.service -f
 - **Recovery Tools**: Available in ~/tools/recovery/
 
 Last Updated: $(date '+%Y-%m-%d %H:%M:%S')
+
+## 🧠 Intelligent Space Management
+The system includes **automated space management** to prevent backup failures due to insufficient storage:
+
+### **Space Management Commands**
+```bash
+# Check available space and requirements
+./backup-space-manager.sh check
+
+# Force cleanup of old backups
+./backup-space-manager.sh cleanup
+
+# Show current backup inventory
+./backup-space-manager.sh inventory
+```
+
+**This ensures your backups never fail due to full drives >> /usr/local/bin/anonymized/endeavouros-nuclear-backup/README.md* 🛡️
