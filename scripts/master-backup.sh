@@ -13,17 +13,17 @@ echo "=== Master Backup Started: $BACKUP_TYPE at $(date) ===" | tee "$LOG_FILE"
 case "$BACKUP_TYPE" in
     "full")
         echo "Running full system backup..." | tee -a "$LOG_FILE"
-        /usr/local/bin/anonymized/nuclear-backup/save-config.sh 2>&1 | tee -a "$LOG_FILE"
-        /usr/local/bin/anonymized/nuclear-backup/full-backup.sh 2>&1 | tee -a "$LOG_FILE"
+        /usr/local/bin/anonymized/endeavouros-nuclear-backup/scripts/save-config.sh 2>&1 | tee -a "$LOG_FILE"
+        /usr/local/bin/anonymized/endeavouros-nuclear-backup/scripts/full-backup.sh 2>&1 | tee -a "$LOG_FILE"
         ;;
     "incremental")
         echo "Running incremental backup..." | tee -a "$LOG_FILE"
-        /usr/local/bin/anonymized/nuclear-backup/save-config.sh 2>&1 | tee -a "$LOG_FILE"
-        /usr/local/bin/anonymized/nuclear-backup/daily-backup.sh 2>&1 | tee -a "$LOG_FILE"
+        /usr/local/bin/anonymized/endeavouros-nuclear-backup/scripts/save-config.sh 2>&1 | tee -a "$LOG_FILE"
+        /usr/local/bin/anonymized/endeavouros-nuclear-backup/scripts/daily-backup.sh 2>&1 | tee -a "$LOG_FILE"
         ;;
     "config")
         echo "Running configuration backup only..." | tee -a "$LOG_FILE"
-        /usr/local/bin/anonymized/nuclear-backup/save-config.sh 2>&1 | tee -a "$LOG_FILE"
+        /usr/local/bin/anonymized/endeavouros-nuclear-backup/scripts/save-config.sh 2>&1 | tee -a "$LOG_FILE"
         ;;
     *)
         echo "Usage: $0 [full|incremental|config]" | tee -a "$LOG_FILE"
